@@ -9,7 +9,7 @@
     </div>
     <!-- <div v-show="isOpen" :class="$style.shadow"> -->
     <div v-show="isOpen" :class="$style.optionWrapper">
-      <div>
+      <div id="option" :class="$style.option">
         <button @click="[(recordType = '0')]">全部</button>
         <button @click="[(recordType = '1')]">转入</button>
         <button @click="[(recordType = '2')]">转出</button>
@@ -43,6 +43,7 @@
 </template>
 
 <script lang="ts">
+import gsap from "gsap";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -76,6 +77,17 @@ export default defineComponent({
         },
       ],
     };
+  },
+  watch: {
+    isOpen(newV, oldV) {
+      if (newV && !oldV) {
+        gsap.from("#option", {
+          opacity: 0.2,
+          y: -2,
+          duration: .3,
+        });
+      }
+    },
   },
   computed: {
     getRecordType() {
@@ -152,10 +164,23 @@ export default defineComponent({
   }
 
   .optionWrapper {
-    >div:first-of-type {
+    .option {
       padding-top: 30px;
       height: 70px;
       background: #ffffff;
+
+      button {
+        width: 105px;
+        height: 37px;
+        border: 1px solid #eeeeee;
+        border-radius: 10px;
+        color: #171e24;
+
+        &:focus {
+          background: #e60027;
+          color: #ffffff;
+        }
+      }
     }
     .restWrapper {
       position: fixed;
@@ -170,19 +195,6 @@ export default defineComponent({
     height: 100vh;
     display: flex;
     justify-content: space-around;
-
-    button {
-      width: 105px;
-      height: 37px;
-      border: 1px solid #eeeeee;
-      border-radius: 10px;
-      color: #171e24;
-
-      &:focus {
-        background: #e60027;
-        color: #ffffff;
-      }
-    }
   }
 
   .historyBlock {
