@@ -1,25 +1,22 @@
 <template>
-  <div class="home" :class="$style.eHistoryWrapper">
-    <div :class="$style.xx"></div>
-    <!-- 交易明细 -->
+  <div :class="$style.eHistoryWrapper">
+    <!-- records -->
     <div :class="$style.selectWrapper">
       <div @click="toggleSelect" :class="$style.selectButton">
         <span>{{ getRecordType }}</span>
-        <!-- <img v-if="isOpen" :src="" alt="">
-        <img v-else :src="" alt=""> -->
       </div>
       <p :class="$style.limits">显示近3个月明细</p>
     </div>
     <!-- <div v-show="isOpen" :class="$style.shadow"> -->
     <div v-show="isOpen" :class="$style.optionWrapper">
-      <button @click="[(recordType = '0')]">全部</button>
-      <button @click="[(recordType = '1')]">转入</button>
-      <button @click="[(recordType = '2')]">转出</button>
+      <div>
+        <button @click="[(recordType = '0')]">全部</button>
+        <button @click="[(recordType = '1')]">转入</button>
+        <button @click="[(recordType = '2')]">转出</button>
+      </div>
+      <div :class="$style.restWrapper"></div>
     </div>
-    <!-- <div :class="$style.shadowWrapper"></div> -->
-    <!-- </div> -->
     <div :class="$style.historyBlock">
-      <!-- v-scroll="handleScroll" -->
       <ul>
         <li
           v-for="(item, index) in filterRecords"
@@ -47,22 +44,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-// import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 
 export default defineComponent({
   name: "Home",
-  // directives: {
-  //   scroll: {
-  //     inserted: function (el, binding) {
-  //       const f = function (evt) {
-  //         if (binding.value(evt, el)) {
-  //           window.removeEventListener('scroll', f)
-  //         }
-  //       }
-  //       window.addEventListener('scroll', f)
-  //     }
-  //   }
-  // },
   data() {
     return {
       isOpen: false,
@@ -117,6 +101,7 @@ export default defineComponent({
     this.getRecords();
   },
   methods: {
+    // TODO handleScroll
     toggleSelect() {
       this.isOpen = !this.isOpen;
     },
@@ -125,36 +110,15 @@ export default defineComponent({
       return "转出";
     },
     getRecords() {
-      // TODO query params: pageNum, pageCount
-      // TODO 交易类型(全部，转入，转出) 只用来筛选
       if (this.historyRecords.length < 30) this.showNoMore = true;
     },
-    // handleScroll: function (evt, el) {
-    //   if (el.scrollHeight - window.scrollY <= window.innerHeight) {
-    //     // TODO get pagination data
-    //     this.historyRecords = []
-    //     if (this.historyRecords.length < 10) {
-    //       this.showNoMore = true
-    //     }
-    //   }
-    // }
   },
 });
 </script>
 <style lang="scss" module>
-// @import "~@/assets/css/config.less";
-.xx {
-  height: 100vh;
-  background: transparent;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-}
-
 .eHistoryWrapper {
   padding: 15px 0;
   height: 100vh;
-  background: gray;
   z-index: 999;
 
   .selectWrapper {
@@ -162,6 +126,9 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: space-between;
+    > * {
+      margin: 0;
+    }
     .selectButton {
       display: flex;
       align-items: center;
@@ -184,24 +151,25 @@ export default defineComponent({
     }
   }
 
-  // .shadow {
-  //   position: fixed;
-  //   width: 100vw;
-  //   height: 100vh;
-  //   // background: rgb(199, 194, 194);
-  //   .shadowWrapper {
-  //     height: calc(100vh - 100px);
-  //     background: transparent;
-  //   }
-  // }
   .optionWrapper {
+    >div:first-of-type {
+      padding-top: 30px;
+      height: 70px;
+      background: #ffffff;
+    }
+    .restWrapper {
+      position: fixed;
+      top: 130px;
+      width: 100vw;
+      height: calc(100vh - 100px);
+      background: black;
+      opacity: 0.4;
+    }
     position: fixed;
     width: 100vw;
-    height: 100px;
-    padding: 30px 0;
+    height: 100vh;
     display: flex;
     justify-content: space-around;
-    background: #ffffff;
 
     button {
       width: 105px;
