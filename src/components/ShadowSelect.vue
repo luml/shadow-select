@@ -10,9 +10,9 @@
     <!-- <div v-show="isOpen" :class="$style.shadow"> -->
     <div v-show="isOpen" :class="$style.optionWrapper">
       <div id="option" :class="$style.option">
-        <button @click="[(recordType = '0')]">全部</button>
-        <button @click="[(recordType = '1')]">转入</button>
-        <button @click="[(recordType = '2')]">转出</button>
+        <button @click="recordType = '0'">全部</button>
+        <button @click="recordType = '1'">转入</button>
+        <button @click="recordType = '2'">转出</button>
       </div>
       <div :class="$style.restWrapper"></div>
     </div>
@@ -84,7 +84,7 @@ export default defineComponent({
         gsap.from("#option", {
           opacity: 0.2,
           y: -2,
-          duration: .3,
+          duration: 0.3,
         });
       }
     },
